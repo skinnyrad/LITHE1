@@ -43,6 +43,7 @@ streamlit run lithe1.py
 
 3. Enter your questions about the CSV file when prompted. LITHE1 will generate and execute Python code to provide the answers. **Note: This tool is not intended for production use.  The project is running LLM generated code, which is highly dangerous.  We would advise running the tool in a docker container to prevent code execution.**
 
+
 ## Example
 
 After starting the tool, you might enter a question like:
@@ -51,7 +52,7 @@ After starting the tool, you might enter a question like:
 What are the column names in the CSV file?
 ```
 
-LITHE1 will generate and execute the relevant Python code to answer your question.
+LITHE1 will generate and execute the relevant Python code to answer your question.  The application will show you what code was generated and executed.
 
 
 ## Contributing
