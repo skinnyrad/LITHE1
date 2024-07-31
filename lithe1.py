@@ -34,7 +34,7 @@ if userinput:
 
         User Question: {userinput}
         """
-        response = ollama.chat(model='llama3:instruct', messages=[
+        response = ollama.chat(model='llama3.1:latest', messages=[
             {
                 'role': 'user',
                 'content': formatted_string,
@@ -54,7 +54,8 @@ if userinput:
             else:
                 # Use the entire response as code
                 code = response.strip()
-            
+            if code.startswith('python'):
+                code = code[len('python'):].strip()
             return code
 
         generated_code = extract_code(resp)
