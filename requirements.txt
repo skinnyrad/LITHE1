@@ -1,7 +1,3 @@
-langchain
-langchain-community
-langchain-ollama
-langchain-experimental
-pandas 
-tabulate
+pandas
 streamlit
+ollama
