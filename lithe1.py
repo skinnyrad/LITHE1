@@ -5,19 +5,33 @@ import re
 import subprocess
 
 def extract_code(response):
-    # Regular expression to match code within triple backticks, optionally including 'python'
     code_pattern = re.compile(r'```(?:python)?\s*(.*?)```', re.DOTALL | re.IGNORECASE)
     match = code_pattern.search(response)
-    
     if match:
-        # Extract code within backticks
         code = match.group(1).strip()
     else:
-        # Use the entire response as code
         code = response.strip()
-    
     return code
 
+def rewrite_question(user_question, df_columns):
+    prompt = f"""
+    You are an AI assistant specializing in data analysis. Your task is to rewrite the given question to make it more suitable for CSV data analysis using Python and pandas.
+
+    CSV Column Names: {', '.join(df_columns)}
+
+    Original Question: {user_question}
+
+    Rewrite the question AND RESPOND WITH THE REWRITTEN QUESTION ONLY, NOTHING ELSE:
+    """
+
+    response = ollama.chat(model='llama3.2', messages=[
+        {
+            'role': 'user',
+            'content': prompt,
+        },
+    ])
+
+    return response['message']['content'].strip()
 
 # Load the CSV file and display an error message if it fails
 try:
@@ -41,29 +55,35 @@ userinput = st.text_input("Enter a question:", "")
 
 if userinput:
     with st.spinner('Processing your question...'):
+        rewritten_question = rewrite_question(userinput, df.columns)
+
         formatted_string = f"""
-        Context: You are a chatbot assistant answering questions about a CSV file named {filename} for a user. Respond only with the python3 code that will answer the question and nothing else. Here are the first few rows of the CSV file:
+        Context: You are a Python data analyst working with a CSV file named {filename}. 
+        Generate Python code using pandas to answer the following question. 
+        Include proper column name usage. 
 
-        {df_head}
+        Column Names: {', '.join(df.columns)}
 
-        User Question: {userinput}
+        Question: {rewritten_question}
+
+        Respond only with the Python code that will answer the question, enclosed in triple backticks. 
         """
+
         response = ollama.chat(model='llama3.2', messages=[
             {
                 'role': 'user',
                 'content': formatted_string,
             },
         ])
+
         resp = response['message']['content']
-
-
         generated_code = extract_code(resp)
         st.code(generated_code, language='python')
 
         # Save the extracted code to a file
         with open('generated_script.py', 'w') as file:
             file.write(generated_code)
-        
+
         # Run the generated script and capture the output
         result = subprocess.run(['python3', 'generated_script.py'], capture_output=True, text=True)
 
