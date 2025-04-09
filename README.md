@@ -2,6 +2,8 @@
 
 LITHE1 is a versatile and lightweight intelligent tool designed to perform AI-driven insights on CSV files. Utilizing the power of the `ollama` module with the `phi4` model, LITHE1 provides an interactive experience for users to query and analyze their CSV data efficiently.
 
+![data-analysis](./img/data-analysis.jpg)
+
 ## Features
 
 - **AI-Powered Analysis**: Leverages advanced AI models to understand and process user queries related to CSV data.
