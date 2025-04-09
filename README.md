@@ -15,9 +15,9 @@ LITHE1 is a versatile and lightweight intelligent tool designed to perform AI-dr
 
 ## Installation
 
-[Install Ollama](https://ollama.com/) and download the necessary models.  The default model recommended for use with LITHE1 is [gemma3](https://ollama.com/library/gemma3).  This model can be downloaded from the command line:
+[Install Ollama](https://ollama.com/) and download the necessary models.  The default model recommended for use with LITHE1 is [phi4](https://ollama.com/library/phi4).  This model can be downloaded from the command line:
 ```sh
-ollama pull gemma3
+ollama pull phi4
 ```
 
 Ensure you have the following Python dependencies installed:
