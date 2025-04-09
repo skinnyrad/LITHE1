@@ -8,7 +8,7 @@ from ollama import ChatResponse
 import platform
 import shutil
 
-model = "llama3.2"
+model = "phi4"
 
 def get_python_command():
     if platform.system() == "Windows":
