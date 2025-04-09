@@ -8,7 +8,16 @@ from ollama import ChatResponse
 import platform
 import shutil
 
-model = "phi4"
+# Create sidebar with model selection dropdown
+st.sidebar.title("Model Selection")
+try:
+    # Get available models from ollama
+    model_names = ollama.list()
+    models = [model.model for model in model_names['models']]
+    model = st.sidebar.selectbox("Select an Ollama model", models)
+except Exception as e:
+    st.sidebar.error(f"Error loading models: {e}")
+    model = "gemma3"  # Fallback to default model
 
 def get_python_command():
     if platform.system() == "Windows":
@@ -44,7 +53,20 @@ def rewrite_question(user_question, df_columns):
     response = chat(model=model, messages=[
         {'role': 'user', 'content': prompt},
     ])
-    return response.message.content.strip()
+    response_text = response.message.content.strip()
+    # Extract actual response after thinking if present
+    return extract_response_after_thinking(response_text)
+
+
+def extract_response_after_thinking(response_text):
+    """Extract the actual response after <think></think> tags if present."""
+    think_pattern = re.compile(r"<think>(.*?)</think>(.*)", re.DOTALL)
+    match = think_pattern.match(response_text)
+    if match:
+        return match.group(2).strip()  # Return the content after </think>
+    else:
+        return response_text  # Return original response if no thinking tags found
+
 
 try:
     filename = './inputdata.csv'
@@ -93,9 +115,12 @@ if submitted and userinput:
         response = ollama.chat(model=model, messages=[
             {'role': 'user', 'content': formatted_string},
         ])
-        
+
         resp = response.message.content.strip()
+        # Extract actual response after thinking if present
+        resp = extract_response_after_thinking(resp)
         generated_code = extract_code(resp)
+
         st.code(generated_code, language='python')
 
         # Save and execute the generated script
