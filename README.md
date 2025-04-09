@@ -15,9 +15,9 @@ LITHE1 is a versatile and lightweight intelligent tool designed to perform AI-dr
 
 ## Installation
 
-[Install Ollama](https://ollama.com/) and download the necessary models.  The default model recommended for use with LITHE1 is [phi4](https://ollama.com/library/phi4).  This model can be downloaded from the command line:
+[Install Ollama](https://ollama.com/) and download the necessary models.  The default model recommended for use with LITHE1 is [qwen2.5-coder](https://ollama.com/library/qwen2.5-coder).  This model can be downloaded from the command line:
 ```sh
-ollama pull phi4
+ollama pull qwen2.5-coder
 ```
 
 Ensure you have the following Python dependencies installed:
