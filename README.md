@@ -1,6 +1,6 @@
 # LITHE1 - Lightweight Intelligent Tool for Handling Exports (Version 1)
 
-LITHE1 is a versatile and lightweight intelligent tool designed to perform AI-driven insights on CSV files. Utilizing the power of the `ollama` module with the `phi4` model, LITHE1 provides an interactive experience for users to query and analyze their CSV data efficiently.
+LITHE1 is a versatile and lightweight intelligent tool designed to perform AI-driven data analysis on CSV files. Utilizing the power of the `ollama` module with open source Large Language Models, LITHE1 provides an interactive experience for users to query and analyze their CSV data efficiently.
 
 ![data-analysis](./img/data-analysis.jpg)
 
@@ -10,14 +10,14 @@ LITHE1 is a versatile and lightweight intelligent tool designed to perform AI-dr
 - **Interactive Querying**: Allows users to input questions and receive Python code that performs the requested analysis on the CSV file.
 - **Automatic Code Generation and Execution**: Generates and executes Python scripts based on user queries to provide immediate answers.
 - **Error Handling**: Includes mechanisms to handle connection issues with the LLM and CSV file reading errors.
-- **Model Agnostic**: The default model used by LITHE1 is `phi4`, but can easily be changed to any model supported by [Ollama](https://www.ollama.com/library).
+- **Model Agnostic**: Compatible with all models available in [Ollama](https://www.ollama.com/library), allowing for effortless switching and customization.
 - **Offline Analysis**: The tool uses offline models provided by `Ollama` so your data doesn't get sent to a third party.
 
 ## Installation
 
-[Install Ollama](https://ollama.com/) and download the necessary models.  The default model used by LITHE1 is [phi4](https://ollama.com/library/phi4).  This model can be downloaded from the command line:
+[Install Ollama](https://ollama.com/) and download the necessary models.  The default model recommended for use with LITHE1 is [gemma3](https://ollama.com/library/gemma3).  This model can be downloaded from the command line:
 ```sh
-ollama pull phi4
+ollama pull gemma3
 ```
 
 Ensure you have the following Python dependencies installed:
