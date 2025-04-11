@@ -59,6 +59,27 @@ LITHE1 will generate and execute the relevant Python code to answer your questio
 
 ![lithe1-answer](./img/lithe1-answer.png)
 
+## Max File Size
+
+The max default file size for streamlit is 200 MB.  If you try to upload a file larger than that, you will get this error:
+
+```
+MessageSizeError: Data of size 225.7 MB exceeds the message size limit of 200.0 MB.
+
+This is often caused by a large chart or dataframe. Please decrease the amount of data sent to the browser, or increase the limit by setting the config option server.maxMessageSize. Click here to learn more about config options.
+
+Note that increasing the limit may lead to long loading times and large memory consumption of the client's browser and the Streamlit server.
+```
+
+You can adjust Streamlit's configuration to allow larger files. Navigate to the lithe1 folder and create a configuration file named config.toml and add the following content to the file:
+
+```
+[server]
+maxMessageSize = 250
+```
+
+Once you have saved the file, start lithe1 and the configuration file in the application folder will be applied.
+
 ## Contributing
 
 We welcome contributions to improve LITHE1. Feel free to submit issues or pull requests.
