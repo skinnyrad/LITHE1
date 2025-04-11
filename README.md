@@ -75,8 +75,9 @@ You can adjust Streamlit's configuration to allow larger files. Navigate to the 
 
 ```
 [server]
-maxMessageSize = 250
+maxMessageSize = 1000
 ```
+**Note: The file size is in MB**
 
 Once you have saved the file, start lithe1 and the configuration file in the application folder will be applied.
 
