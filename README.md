@@ -71,15 +71,27 @@ This is often caused by a large chart or dataframe. Please decrease the amount o
 Note that increasing the limit may lead to long loading times and large memory consumption of the client's browser and the Streamlit server.
 ```
 
-You can adjust Streamlit's configuration to allow larger files. Navigate to the lithe1 folder and create a configuration file named config.toml and add the following content to the file:
+### Adjusting Streamlit's Configuration for Larger Files:
+To allow larger files in Streamlit, you can define a global configuration by locating and editing the `.streamlit` directory created during installation. Follow these steps based on your operating system:
 
-```
-[server]
-maxMessageSize = 1000
-```
-**Note: The file size is in MB**
+1. **Find or create the Configuration File:**
+   - **macOS/Linux**: The configuration file is located at `~/.streamlit/config.toml`. The `~` represents your home directory (e.g., `/Users/<YourUsername>/`).
+   - **Windows**: You’ll find the file at `$env:userprofile\.streamlit\config.toml`. `$env:userprofile` typically corresponds to `C:\Users\<YourUsername>\`.
 
-Once you have saved the file, start lithe1 and the configuration file in the application folder will be applied.
+2. **Edit or Create the Configuration File:**
+   - If the file does not exist, you can create it manually. Use a text editor of your choice:
+     - On Windows: Open Notepad or any preferred editor.
+     - On macOS/Linux: Use `nano`, `vim`, or a graphical text editor like VS Code or TextEdit.
+   - Add or modify the following content:
+     ```plaintext
+     [server]
+     maxMessageSize = 250
+     ```
+     Replace `250` with the desired size in megabytes.
+
+3. **Save and Apply the Changes:**
+   - After saving the file, restart your Streamlit application to apply the updated configuration.
+
 
 ## Contributing
 
