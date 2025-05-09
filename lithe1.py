@@ -8,16 +8,36 @@ from ollama import ChatResponse
 import platform
 import shutil
 
-# Create sidebar with model selection dropdown
+# --- Model Selection with Session State ---
+# Get available models from ollama and store in session state
+if 'models' not in st.session_state:
+    try:
+        model_names = ollama.list()
+        st.session_state.models = [model.model for model in model_names['models']]
+    except Exception as e:
+        st.sidebar.error(f"Error loading models: {e}")
+        st.session_state.models = ["gemma3"]  # Fallback to default
+
+# Initialize selected model in session state if not set
+if 'selected_model' not in st.session_state:
+    st.session_state.selected_model = st.session_state.models[0]
+
+# Sidebar model selection, tied to session state
 st.sidebar.title("Model Selection")
-try:
-    # Get available models from ollama
-    model_names = ollama.list()
-    models = [model.model for model in model_names['models']]
-    model = st.sidebar.selectbox("Select an Ollama model", models)
-except Exception as e:
-    st.sidebar.error(f"Error loading models: {e}")
-    model = "gemma3"  # Fallback to default model
+selected_model = st.sidebar.selectbox(
+    "Select an Ollama model",
+    st.session_state.models,
+    index=st.session_state.models.index(st.session_state.selected_model) if st.session_state.selected_model in st.session_state.models else 0,
+    key="selected_model"
+)
+
+# Always use the selected model from session state
+model = st.session_state.selected_model
+
+# Defensive: Prevent running if no model is selected
+if not model:
+    st.sidebar.error("No Ollama model selected. Please select a model in the sidebar.")
+    st.stop()
 
 def get_python_command():
     if platform.system() == "Windows":
@@ -57,7 +77,6 @@ def rewrite_question(user_question, df_columns):
     # Extract actual response after thinking if present
     return extract_response_after_thinking(response_text)
 
-
 def extract_response_after_thinking(response_text):
     """Extract the actual response after <think></think> tags if present."""
     think_pattern = re.compile(r"<think>(.*?)</think>(.*)", re.DOTALL)
@@ -66,7 +85,6 @@ def extract_response_after_thinking(response_text):
         return match.group(2).strip()  # Return the content after </think>
     else:
         return response_text  # Return original response if no thinking tags found
-
 
 try:
     filename = './inputdata.csv'
